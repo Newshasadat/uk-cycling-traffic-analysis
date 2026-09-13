@@ -201,7 +201,7 @@ Weekly / Monthly Analysis
 
 The project currently includes the following analysis steps:
 
-```text
+
 
     Investigate missing data
 
