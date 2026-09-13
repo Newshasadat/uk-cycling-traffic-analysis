@@ -193,6 +193,7 @@ Hourly Data
 Daily Aggregation
      ↓
 Weekly / Monthly Analysis
+```
 
 ---
 
