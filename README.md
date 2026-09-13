@@ -1,361 +1,287 @@
+# Bikes4Britain – UK Cycling Traffic Analysis & Forecasting
 
+## 📌 Project Overview
 
-# Bikes4Britain – Cycling Traffic Analysis
+Bikes4Britain is an organization aiming to improve cycling infrastructure across the United Kingdom.
 
-## Problem Statement
+The organization is interested in understanding how the number of cyclists has changed over time and how cycling traffic differs across different locations.
 
-Bikes4Britain, which aims to improve cycling infrastructure in the United Kingdom, is interested in seeing how the number of cyclists has changed over time and across different areas.
+This project analyzes cycling traffic data to identify:
+
+- Changes in cycling activity over time
+- Locations with increasing cycling traffic
+- Locations with high cycling volumes
+- Locations where cycling represents a significant proportion of traffic
+- Cycling commuter patterns
+- Daily, weekly, and yearly temporal patterns
+- Seasonal trends
+- Locations suitable for detailed time-series analysis and forecasting
+
+The project also uses time-series analysis and forecasting techniques to investigate future cycling trends.
 
 ---
 
-## Data Source
+# 🎯 Desired Outcomes
 
-Data originally taken from:
+The expected output of this project is a combination of:
 
+- Line charts
+- Time-series visualizations
+- Statistical analysis
+- Forecasting results
+- Written insights and conclusions
+
+The analysis aims to provide useful information that could help Bikes4Britain better understand cycling activity and support decisions related to cycling infrastructure.
+
+---
+
+# 📊 Data Source
+
+The data was originally obtained from the UK Department for Transport's Road Traffic website.
+
+**Data Source:**  
 https://roadtraffic.dft.gov.uk/downloads
 
----
+The project also includes a data dictionary document describing the available variables.
 
-## Data Dictionary
-
-The data dictionary document is included in the project files.
-
+**Data Dictionary:**  
 https://mng.bz/4ajw
 
 ---
 
-## Desired Outcomes
+# 📖 Data Dictionary
 
-The output of this project is likely to be a combination of line charts and conversations.
+The detailed data dictionary is included in the project files.
 
----
-
-## Required Tools
-
-- **Pandas** and **Matplotlib** libraries for data exploration and visualization.
-- **Statsmodels** library when investigating time-specific aspects of the data.
-- **pmdarima** module for automatically choosing the best forecasting model.
+It describes the variables available in the cycling traffic dataset and provides information about the meaning and structure of each column.
 
 ---
 
-# Project Workflow
+# 🛠️ Required Tools
 
-## 1. Investigate the Granularity of Our Data
+The project uses the following Python libraries:
 
-What does one row represent?
-
-Is it one row per location per day or something else?
-
-The granularity of data is one of the first things to investigate because it informs all other data transformations, like aggregations.
+- **Pandas** – Data exploration, cleaning, transformation, and aggregation
+- **Matplotlib** – Data visualization
+- **Statsmodels** – Time-series analysis and decomposition
+- **pmdarima** – Automatic selection of forecasting models
 
 ---
 
-## 2. Understand the Coverage of the Data
+# 🔎 Project Workflow
 
-Understand the coverage of the data both geographically and in time.
+## 1. Investigate Data Granularity
 
-For example, because the dataset is not a single time series but many, we need to know if every available location has the same amount of data.
+The first step is to understand what one row of data represents.
+
+Questions include:
+
+- Does one row represent one location per hour?
+- Is the data recorded daily or weekly?
+- Are there multiple time series representing different locations?
+
+Understanding the granularity is important because it determines how the data should be transformed and aggregated.
+
+---
+
+## 2. Understand Geographic and Time Coverage
+
+The dataset contains multiple time series from different locations.
+
+The analysis investigates:
+
+- Which locations are represented?
+- How many observations are available for each location?
+- What is the earliest and latest available date?
+- Do all locations have the same amount of historical data?
+- Which locations have sufficiently long time coverage?
 
 ---
 
 ## 3. Identify Gaps in the Time Series
 
-Does every location have measurements at constant intervals?
+Time-series completeness is investigated for each location.
 
-This is important to ensure we have enough of a sample at each location and is also a critical requirement for forecasting.
+The analysis checks whether:
 
-Most forecasting algorithms do not work with gaps in the data or inconsistent intervals.
+- Measurements occur at constant intervals.
+- Locations have missing periods.
+- There are gaps in the time series.
+- The available observations are sufficient for time-series analysis and forecasting.
 
----
-
-## 4. Investigate the Distribution of Bicycle Counts
-
-What is a typical cycling volume for one row of data?
-
-Knowing this will immediately help identify the places with the highest cycling traffic.
+Locations with incomplete records may need to be excluded or their missing periods handled through appropriate methods such as smoothing or estimation.
 
 ---
 
-## 5. Look at Temporal Patterns
+## 4. Investigate Missing Data
 
-This includes looking at how cycling traffic fluctuates:
+Missing values are investigated across the dataset.
 
-- At different times of day
-- On different days of the week
-- Across multiple years
+Where appropriate, missing values in selected columns are filled with **0**.
 
-Questions to investigate:
-
-- Are there seasonal patterns we can identify?
-- Which locations are showing a growing trend in cycling traffic?
+This step ensures that missing information is handled consistently before further analysis.
 
 ---
 
-## 6. Reduce the Search Space
+## 5. Combine Duplicate Rows
 
-We may not be able to analyze every location in equal detail because of gaps.
+Duplicate observations are investigated and combined where necessary.
 
-We may have to filter the data down to locations that have more complete records across a longer time horizon, especially if we are interested in looking for temporal patterns and forecasting.
+For duplicate rows, measurements are combined by calculating the **average value**.
 
----
-
-# 🔎 Project Progress
-
-## 1. Data Quality Investigation
-
-The first step was to investigate the completeness and quality of the property sales data.
-
-This included:
-
-- Identifying missing values.
-- Investigating missing street names.
-- Investigating missing postcodes.
-- Detecting potential outliers in property prices.
-
-### Missing Values
-
-- Missing street names were replaced with a placeholder.
-- Records with missing postcodes were retained because they may still contain useful geographic information.
+This prevents duplicate observations from distorting later aggregations and analysis.
 
 ---
 
-## 2. Geographic Investigation
+# 🚲 Investigating Cycling Traffic
 
-The geographic structure of the dataset was investigated to understand the different address levels available.
+## 6. Investigate the Distribution of Cycling Traffic
 
-The analysis considered:
-
-- Postcode
-- Street
-- Locality
-- Town/City
-- District
-- County
-
-Understanding this hierarchy was important for determining how geographic filters could be implemented in the application.
-
----
-
-## 3. Identifying Welsh Properties
-
-Since the original dataset contains property transactions across England and Wales, additional government geographic data was used to distinguish Welsh property transactions from English transactions.
-
-This allowed the project to extract the relevant property transactions located in Wales.
-
----
-
-## 4. Property Type Analysis
-
-Property type was one of the main stakeholder requirements.
-
-The analysis investigated:
-
-- How sale prices vary between property types.
-- Which property types are more popular.
-- Whether property type popularity varies geographically.
-- Whether price differences between property types vary across different areas.
-
-Property categories were also renamed to make them easier to understand within the application.
+The distribution of bicycle counts is analyzed to understand typical cycling volumes.
 
 For example:
 
-- D → Detached
-- S → Semi-detached
-- T → Terraced
-- F → Flats/Maisonettes
-- O → Other
+> What is the typical number of bikes recorded in one hour?
+
+This analysis helps identify:
+
+- Typical hourly cycling volumes
+- Locations with unusually high cycling traffic
+- Potential anomalies and outliers
 
 ---
 
-## 5. Property Price Analysis
+## 7. Identify Locations Where Cycling Is on the Rise
 
-Property prices were investigated to understand their distribution and identify potential outliers.
+Locations are analyzed over time to identify areas experiencing increasing cycling traffic.
 
-The analysis included:
-
-- Examining the distribution of sale prices.
-- Identifying unusually high property prices.
-- Removing extreme high values where appropriate.
-- Retaining lower property prices to avoid unnecessarily removing valid transactions.
+This can help highlight locations where cycling activity is growing and may indicate areas where additional cycling infrastructure could be valuable.
 
 ---
 
-## 6. Choosing Visualizations
+## 8. Identify Locations Where Cycling Is a Significant Percentage of Traffic
 
-Several visualizations were investigated and selected based on their usefulness for the potential application.
+The analysis investigates locations where bicycles represent a significant proportion of total traffic.
 
-The main visualizations include:
-
-### Transactions Over Time
-
-Shows how the number of property transactions changes over time.
-
-### Price by Property Type
-
-Compares property prices across different property types.
-
-### Ridgeline Plot of Price by County
-
-Shows the distribution of property prices across different Welsh counties.
+This provides another way to identify locations where cycling plays an important role in transportation.
 
 ---
 
-# 🧹 Data Preparation
+## 9. Identify Locations With High Cycling Commuter Traffic
 
-The project followed a data preparation process that included:
+Cycling traffic patterns are investigated to identify locations with high commuter activity.
 
-1. Merging multiple years of property sales data.
-2. Investigating missing values.
-3. Handling missing street names.
-4. Retaining records with missing postcodes.
-5. Investigating price distributions.
-6. Identifying and removing extreme high-price outliers.
-7. Renaming property categories.
-8. Enhancing geographic information using external government data.
-9. Extracting Welsh property transactions.
-10. Exporting the cleaned Welsh data to Parquet format.
+Particular attention is given to recurring patterns during commuting hours, such as:
+
+- Morning peaks
+- Evening peaks
+- Weekday traffic
 
 ---
 
-# 💾 Data Export
+# 🕐 Time-Series Transformation
 
-After cleaning and filtering the data, the relevant Welsh property transactions were exported to **Parquet format**.
+The original data may contain measurements at a higher frequency, such as hourly observations.
 
-The exported dataset is used by the Streamlit proof-of-concept application.
+To make the data easier to analyze, time series can be reshaped into different levels of granularity.
 
-Using a processed Parquet dataset allows the application to work with the cleaned Welsh property data efficiently.
-
----
-
-# 🌐 Streamlit Proof of Concept
-
-The project includes a proof-of-concept application built using **Streamlit**.
-
-The purpose of the application is to demonstrate how the analyzed property data could be presented to stakeholders and potential users.
-
-## Application Requirements
-
-The application should:
-
-- Use real Welsh property data.
-- Allow users to interact with the data.
-- Dynamically update visualizations based on user input.
-- Dynamically update metrics based on user selections.
-- Use available geographic information.
-- Generate filter options directly from the available data.
-
-For example, county filters should be created from the actual counties available in the dataset rather than using manually defined values.
-
----
-
-# 📱 Application Layout
-
-The application is structured around:
-
-1. County breakdown
-2. User filters
-3. Key metrics
-4. Interactive visualizations
-
-The goal is to provide users with an intuitive way to explore property prices and sales patterns across Wales.
-
----
-
-# 📈 Visualizations Included
-
-The proof-of-concept application focuses on the following visualizations:
-
-### 1. Transactions Over Time
-
-Allows users to understand historical changes in property transaction activity.
-
-### 2. Price by Property Type
-
-Allows users to compare property prices across:
-
-- Detached
-- Semi-detached
-- Terraced
-- Flats/Maisonettes
-- Other
-
-### 3. Ridgeline Plot of Price by County
-
-Allows users to compare the distribution of property prices across Welsh counties.
-
----
-
-# 🧩 Helper Functions
-
-Helper functions were created to keep the application code organized and reusable.
-
-These functions provide functionality that can be used by the application without being tightly coupled to the main Streamlit application code.
-
-This improves:
-
-- Code organization
-- Reusability
-- Maintainability
-- Readability
-
----
-
-# 🗺️ Geographic Hierarchy
-
-The geographic information in the dataset provides several levels of location detail:
+For example:
 
 ```text
-County
-   ↓
-District
-   ↓
-Town/City
-   ↓
-Locality
-   ↓
-Street
-   ↓
-Postcode
-   ↓
-Property
-
-```
+Hourly Data
+     ↓
+Daily Aggregation
+     ↓
+Weekly / Monthly Analysis
 
 ---
 
+📋 Project Progress
 
-# Project Workflow
+The project currently includes the following analysis steps:
 
 ```text
 
-Raw Land Registry Data
-        ↓
-Merge Multiple Years
+    Investigate missing data
+
+    Fill missing values in selected columns with 0
+
+    Investigate time-series granularity
+
+    Determine whether multiple time series exist across locations
+
+    Combine duplicate rows by averaging measurements
+
+    Investigate date coverage
+
+    Investigate gaps in the time series
+
+    Filter to locations with long coverage and no gaps
+
+    Investigate the distribution of cycling traffic
+
+    Identify locations where cycling is on the rise
+
+    Identify locations where cycling represents a significant percentage of traffic
+
+    Identify locations with high cycling commuter traffic
+
+    Reshape time-series data to different levels of granularity
+
+    Filter data to locations of interest
+
+    Visualize time series using line charts
+
+    Investigate the distribution of repeated measurements
+
+    Investigate individual data points for anomalies
+
+    Decompose time series to identify trends and seasonality
+
+    Identify temporal patterns
+
+    Find time series of interest using multiple criteria
+
+    Forecast selected time series into the future
+
+---
+🔄 project Workflow
+
+```text 
+
+Raw Cycling Traffic Data
         ↓
 Data Quality Investigation
         ↓
 Missing Value Handling
         ↓
-Outlier Investigation
+Investigate Data Granularity
         ↓
-Geographic Investigation
+Combine Duplicate Rows
         ↓
-Identify Welsh Properties
+Investigate Geographic Coverage
         ↓
-Property Type Analysis
+Investigate Time Coverage
         ↓
-Price Analysis
+Identify Gaps
         ↓
-Select Useful Visualizations
+Filter Suitable Locations
         ↓
-Export Clean Welsh Data
+Investigate Cycling Traffic Distribution
         ↓
-Build Streamlit Proof of Concept
+Analyze Temporal Patterns
         ↓
-Interactive Property Market Application
+Identify Trends & Seasonality
+        ↓
+Investigate Anomalies
+        ↓
+Select Locations of Interest
+        ↓
+Time-Series Forecasting
+        ↓
+Visualizations & Insights
 
 ```
-
 
 ---
 # 🚀Installation & Usage
@@ -415,17 +341,3 @@ deactivate
 
 
 ---
-🎯 Final Outcome
-
-The final outcome of this project is a Streamlit proof-of-concept application that demonstrates how Welsh property sales data can be transformed into an interactive property market exploration tool.
-
-The project provides insights into:
-
-Property prices
-Property types
-Transaction trends
-Geographic differences
-County-level price distributions
-Potential street-level analysis
-
-The proof of concept also helps evaluate whether the available Land Registry data is sufficient to support the development of a more complete property market product for CymruHomes Connect.
