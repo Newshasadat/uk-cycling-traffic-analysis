@@ -1,82 +1,101 @@
-# Welsh Property Market Analysis & App Proof of Concept
 
-## 📌 Project Overview
 
-CymruHomes Connect is a property company specializing in homes in Wales. The company wants to expand its business through data-driven insights and provide customers with information about the Welsh property market through a new application.
+# Bikes4Britain – Cycling Traffic Analysis
 
-The proposed application will use historical property sales data to allow users to explore property prices in areas of interest.
+## Problem Statement
 
-The main goal of this project is to investigate whether the available data is suitable for building a useful property market application, with a particular focus on:
-
-- Property types
-- Property prices
-- Geographic patterns
-- Street-level information
-- Differences between areas across Wales
+Bikes4Britain, which aims to improve cycling infrastructure in the United Kingdom, is interested in seeing how the number of cyclists has changed over time and across different areas.
 
 ---
 
-## 🎯 Desired Outcomes
+## Data Source
 
-The project aims to:
+Data originally taken from:
 
-- Identify what types of analysis could be included in a potential property market application.
-- Investigate whether the available data is sufficient to build a useful product.
-- Provide recommendations for additional data sources that could improve the application.
-- Build a proof of concept to demonstrate the potential application to stakeholders.
-- Consider both stakeholder requirements and potential future user preferences.
+https://roadtraffic.dft.gov.uk/downloads
 
 ---
 
-## 📊 Data Source
+## Data Dictionary
 
-The project uses the UK Government **Land Registry Price Paid Data**, which contains publicly available historical property sales information.
+The data dictionary document is included in the project files.
 
-**Source:**  
-https://mng.bz/yWvB
-
-The dataset contains information about property transactions, prices, dates, locations, property types, and other address-related information.
+https://mng.bz/4ajw
 
 ---
 
-## 📖 Data Dictionary
+## Desired Outcomes
 
-| Column | Description |
-|---|---|
-| Transaction Unique Identifier | Reference number generated automatically for each published sale. |
-| Price | Sale price stated on the transfer deed. |
-| Date of Transfer | Date the sale was completed, as stated on the transfer deed. |
-| Postcode | Postal code of the property address. |
-| Property Type | Type of property: D = Detached, S = Semi-detached, T = Terraced, F = Flats/Maisonettes, O = Other. |
-| Old/New | Indicates whether the property is newly built (Y) or an established building (N). |
-| Duration | Property tenure: F = Freehold, L = Leasehold. |
-| PAON | Primary Addressable Object Name, usually the house number or name. |
-| SAON | Secondary Addressable Object Name, used when a property is part of a larger building, such as a flat. |
-| Street | Street name of the property. |
-| Locality | Additional location information, such as a district within a city. |
-| Town/City | Town or city where the property is located. |
-| District | Administrative district of the property. |
-| County | County where the property is located. |
-| Category Type | A = Standard Price Paid entry, B = Additional Price Paid entry. |
-| Record Status | Indicates additions, changes, or deletions in monthly files. Yearly files contain the latest version of all records. |
-
-### Category Type
-
-- **A:** Standard Price Paid entry, including a single residential property sold for full market value.
-- **B:** Additional Price Paid entry, including repossessions, transfers under power of sale, identifiable buy-to-lets, and transfers to non-private individuals.
+The output of this project is likely to be a combination of line charts and conversations.
 
 ---
 
-## 🛠️ Tools & Technologies
+## Required Tools
 
-The project uses:
+- **Pandas** and **Matplotlib** libraries for data exploration and visualization.
+- **Statsmodels** library when investigating time-specific aspects of the data.
+- **pmdarima** module for automatically choosing the best forecasting model.
 
-- **Python**
-- **Pandas** – Data exploration and manipulation
-- **Matplotlib** – Data visualization
-- **Seaborn** – Statistical visualization
-- **Ridgeplot** – Ridgeline visualizations
-- **Parquet** – Efficient storage of processed property data
+---
+
+# Project Workflow
+
+## 1. Investigate the Granularity of Our Data
+
+What does one row represent?
+
+Is it one row per location per day or something else?
+
+The granularity of data is one of the first things to investigate because it informs all other data transformations, like aggregations.
+
+---
+
+## 2. Understand the Coverage of the Data
+
+Understand the coverage of the data both geographically and in time.
+
+For example, because the dataset is not a single time series but many, we need to know if every available location has the same amount of data.
+
+---
+
+## 3. Identify Gaps in the Time Series
+
+Does every location have measurements at constant intervals?
+
+This is important to ensure we have enough of a sample at each location and is also a critical requirement for forecasting.
+
+Most forecasting algorithms do not work with gaps in the data or inconsistent intervals.
+
+---
+
+## 4. Investigate the Distribution of Bicycle Counts
+
+What is a typical cycling volume for one row of data?
+
+Knowing this will immediately help identify the places with the highest cycling traffic.
+
+---
+
+## 5. Look at Temporal Patterns
+
+This includes looking at how cycling traffic fluctuates:
+
+- At different times of day
+- On different days of the week
+- Across multiple years
+
+Questions to investigate:
+
+- Are there seasonal patterns we can identify?
+- Which locations are showing a growing trend in cycling traffic?
+
+---
+
+## 6. Reduce the Search Space
+
+We may not be able to analyze every location in equal detail because of gaps.
+
+We may have to filter the data down to locations that have more complete records across a longer time horizon, especially if we are interested in looking for temporal patterns and forecasting.
 
 ---
 
