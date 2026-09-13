@@ -76,7 +76,6 @@ The project uses:
 - **Matplotlib** – Data visualization
 - **Seaborn** – Statistical visualization
 - **Ridgeplot** – Ridgeline visualizations
-- **Streamlit** – Interactive web-based application
 - **Parquet** – Efficient storage of processed property data
 
 ---
