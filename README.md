@@ -154,7 +154,7 @@ We identified the following composite key:
 
 However, the dataset contains duplicate rows with the same key. We handle these by grouping duplicate records and averaging their measurement values.
 
-The `Road\\\_name` and `Link\\\_length` columns contain missing values. To avoid issues during deduplication, we temporarily replace missing values with placeholders, perform the deduplication, and then restore them as missing values. We use `"PLACEHOLDER"` for `Road\\\_name` and a numeric value not already present in the data for `Link\\\_length`.
+The `Road_name` and `Link_length` columns contain missing values. To avoid issues during deduplication, we temporarily replace missing values with placeholders, perform the deduplication, and then restore them as missing values. We use `"PLACEHOLDER"` for `Road_name` and a numeric value not already present in the data for `Link_length`.
 
 ## 3. Investigate date coverage : Only keep locations with long coverage 
 3.1 What is the date range of the data in general?
