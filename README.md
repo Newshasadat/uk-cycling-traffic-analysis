@@ -142,7 +142,8 @@ Visualizations & Insights
 ---
 # analyse steps
 
-## 1. Investigate missing data : Fill missing values in some columns with 0
+## 1. Investigate missing data :
+Fill missing values in some columns with 0
 
 ## 2.  Investigate granularity of the data :
 
