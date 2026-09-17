@@ -141,7 +141,7 @@ Visualizations & Insights
 ```
 ---
 
-📋 Project Progress
+# 📋 Project Progress
 
 The project currently includes the following analysis steps:
 
