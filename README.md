@@ -99,10 +99,10 @@ rizing hourly data at a daily level)
 - Identifying temporal patterns within time series (cycling locations with a high level of traffic in the morning)
 - Finding time series of interest based on multiple criteria
 - Forecasting a time series into the future to predict future trends
-- 
+
+
 ---
----
-📋 project progress
+# 📋 project progress
 
 ```text 
 
