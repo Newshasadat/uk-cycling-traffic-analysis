@@ -163,41 +163,42 @@ The `Road_name` and `Link_length` columns contain missing values. To avoid issue
 
 3.3 Are there consistent measurement intervals in the data?
 
-We first examine the overall date range and how coverage varies across locations 
-Histogram showing coverage in years across different locations
-Number of locations with one day of data across regions
-Number of count points by region (total location)
-calculate  percentage of the total number of locations in each region to get a fair comparison
+- We first examine the overall date range and how coverage varies across locations 
+- Histogram showing coverage in years across different locations
+- Number of locations with one day of data across regions
+- Number of count points by region (total location)
+- calculate  percentage of the total number of locations in each region to get a fair comparison
 As it stands, the percentage of locations that only have data on a single date is consistent across the regions . we will assume we are satisfied that the
 existence of single-day locations is just something that happens everywhere and is not something to address directly.
 
 ## 4. INVESTIGATING GAPS IN TIME SERIES
 Are there gaps in any of the time series of the different locations?
-Different locations have data covering different periods. We identify gaps by comparing each year with the previous year and excluding location IDs with gaps. We focus on locations with at least 10 years of continuous data. This leaves just over 1,400 location IDs with one measurement date per location per year.
-The day of the week can affect traffic patterns. Our remaining data contains measurements mainly from Tuesday to Friday, fewer on Monday, and none on weekends, reducing concerns about weekday-versus-weekend effects.
-However, measurements are not always taken on the same date or at the same time of year. Seasonal differences may therefore introduce bias, particularly in cycling data. We identify locations where measurements consistently occurred in the same month. Applying this condition reduces the dataset by about half, leaving just under 700 time series.
+- Different locations have data covering different periods. We identify gaps by comparing each year with the previous year and excluding location IDs with gaps. We focus on locations with at least 10 years of continuous data. This leaves just over 1,400 location IDs with one measurement date per location per year.
+- The day of the week can affect traffic patterns. Our remaining data contains measurements mainly from Tuesday to Friday, fewer on Monday, and none on weekends, reducing concerns about weekday-versus-weekend effects.
+- However, measurements are not always taken on the same date or at the same time of year. Seasonal differences may therefore introduce bias, particularly in cycling data. We identify locations where measurements consistently occurred in the same month. Applying this condition reduces the dataset by about half, leaving just under 700 time series.
 
 ## 5.  Export filtered data to parquet
 
 ## 6. Investigate distribution of cycling traffic 
 Distribution of total cycling traffic
+
 Descriptive statistics for the total cycling traffic values
 
 ### 6.1 FINDING TIME SERIES THAT CONTAIN UPWARD TRENDS :
 Find locations where cycling is on the rise :
-Our first step is to define what we mean by “on the rise.” Do we want to see cycling increase year-on-year consistently for a location to qualify? Since we only have a day’s worth of data each year, there will be noise, so this criterion might be too strict. Let’s look for locations where the latest measurement figure was higher than the first. It’s a crude proxy for “increase in cycling,” but we can filter the data down to the locations with the largest increase.
-Defines a function to calculate the difference between the first and last values encountered in a group
-Defines a function to calculate the change as a percentage (Accounts for division-by-zero errors ) 
-Applies these two functions to every location ID group ( Absolute and percentage difference of cycling totals for each location ) 
+- Our first step is to define what we mean by “on the rise.” Do we want to see cycling increase year-on-year consistently for a location to qualify? Since we only have a day’s worth of data each year, there will be noise, so this criterion might be too strict. Let’s look for locations where the latest measurement figure was higher than the first. It’s a crude proxy for “increase in cycling,” but we can filter the data down to the locations with the largest increase.
+- Defines a function to calculate the difference between the first and last values encountered in a group
+- Defines a function to calculate the change as a percentage (Accounts for division-by-zero errors ) 
+- Applies these two functions to every location ID group ( Absolute and percentage difference of cycling totals for each location ) 
 
 ### 6.2 IDENTIFYING TIME SERIES WITH CERTAIN CHARACTERISTICS : 
 Find locations where cycling is a significant percentage of traffic
- Filter the traffic data to the last observed date for each location ID.
- Calculate the total traffic by adding the relevant columns together.
- Group the data by location ID to reduce the granularity to one row per location.
- Sum the total traffic column and the bikes column.
- Calculate cycling as a percentage for each location 
- A specific location with a high cycling traffic percentage
+ - Filter the traffic data to the last observed date for each location ID.
+ - Calculate the total traffic by adding the relevant columns together.
+ - Group the data by location ID to reduce the granularity to one row per location.
+ - Sum the total traffic column and the bikes column.
+ - Calculate cycling as a percentage for each location 
+ - A specific location with a high cycling traffic percentage
 
 
 ### 6.3 IDENTIFYING TEMPORAL PATTERNS WITHIN TIME SERIES : 
@@ -207,9 +208,9 @@ Find locations with high cycling commuter traffic : To investigate commuting pat
 
 6.3.2 Once we understand this, we will identify locations where cycling traffic is highest during commuting hours.
 
-1 Filter the cycling data to the most recent year for each location—This will give us an up to-date view on cycling patterns.
-2 Calculate the percentage of bike traffic that occurred in each hour of the day—Using a percentage means comparable results regardless of the popularity of the location.
-3 Visualize the distribution of these percentage values by hour—Using our “start at the end” approach, we imagine the final visualization. In this case, it will be a series of box plots, each representing an hour of the day and individual points representing the percentage of bike traffic in that hour of the day for a location.
+1. Filter the cycling data to the most recent year for each location—This will give us an up to-date view on cycling patterns.
+2. Calculate the percentage of bike traffic that occurred in each hour of the day—Using a percentage means comparable results regardless of the popularity of the location.
+3. Visualize the distribution of these percentage values by hour—Using our “start at the end” approach, we imagine the final visualization. In this case, it will be a series of box plots, each representing an hour of the day and individual points representing the percentage of bike traffic in that hour of the day for a location.
 
 
 ## 7. COMBINING CRITERIA TO IDENTIFY TIME SERIES OF INTEREST : Filter data to locations of interest : 
