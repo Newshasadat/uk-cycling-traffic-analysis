@@ -140,56 +140,6 @@ Visualizations & Insights
 
 ```
 ---
-
-# 📋 Project Progress
-
-The project currently includes the following analysis steps:
-
-
-
-    Investigate missing data
-
-    Fill missing values in selected columns with 0
-
-    Investigate time-series granularity
-
-    Determine whether multiple time series exist across locations
-
-    Combine duplicate rows by averaging measurements
-
-    Investigate date coverage
-
-    Investigate gaps in the time series
-
-    Filter to locations with long coverage and no gaps
-
-    Investigate the distribution of cycling traffic
-
-    Identify locations where cycling is on the rise
-
-    Identify locations where cycling represents a significant percentage of traffic
-
-    Identify locations with high cycling commuter traffic
-
-    Reshape time-series data to different levels of granularity
-
-    Filter data to locations of interest
-
-    Visualize time series using line charts
-
-    Investigate the distribution of repeated measurements
-
-    Investigate individual data points for anomalies
-
-    Decompose time series to identify trends and seasonality
-
-    Identify temporal patterns
-
-    Find time series of interest using multiple criteria
-
-    Forecast selected time series into the future
-   
----
 # analyse steps
 
 ## 1. Investigate missing data : Fill missing values in some columns with 0
