@@ -158,8 +158,11 @@ The `Road_name` and `Link_length` columns contain missing values. To avoid issue
 
 ## 3. Investigate date coverage : Only keep locations with long coverage 
 3.1 What is the date range of the data in general?
+
 3.2 Does the date range vary across smaller time series (per location)?
+
 3.3 Are there consistent measurement intervals in the data?
+
 We first examine the overall date range and how coverage varies across locations 
 Histogram showing coverage in years across different locations
 Number of locations with one day of data across regions
@@ -180,14 +183,14 @@ However, measurements are not always taken on the same date or at the same time 
 Distribution of total cycling traffic
 Descriptive statistics for the total cycling traffic values
 
-6.1 FINDING TIME SERIES THAT CONTAIN UPWARD TRENDS :
+### 6.1 FINDING TIME SERIES THAT CONTAIN UPWARD TRENDS :
 Find locations where cycling is on the rise :
 Our first step is to define what we mean by “on the rise.” Do we want to see cycling increase year-on-year consistently for a location to qualify? Since we only have a day’s worth of data each year, there will be noise, so this criterion might be too strict. Let’s look for locations where the latest measurement figure was higher than the first. It’s a crude proxy for “increase in cycling,” but we can filter the data down to the locations with the largest increase.
 Defines a function to calculate the difference between the first and last values encountered in a group
 Defines a function to calculate the change as a percentage (Accounts for division-by-zero errors ) 
 Applies these two functions to every location ID group ( Absolute and percentage difference of cycling totals for each location ) 
 
-6.2 IDENTIFYING TIME SERIES WITH CERTAIN CHARACTERISTICS : 
+### 6.2 IDENTIFYING TIME SERIES WITH CERTAIN CHARACTERISTICS : 
 Find locations where cycling is a significant percentage of traffic
  Filter the traffic data to the last observed date for each location ID.
  Calculate the total traffic by adding the relevant columns together.
@@ -197,11 +200,13 @@ Find locations where cycling is a significant percentage of traffic
  A specific location with a high cycling traffic percentage
 
 
-6.3 IDENTIFYING TEMPORAL PATTERNS WITHIN TIME SERIES : 
-Find locations with high cycling commuter traffic : 
-To investigate commuting patterns, we will do two things:
+### 6.3 IDENTIFYING TEMPORAL PATTERNS WITHIN TIME SERIES : 
+Find locations with high cycling commuter traffic : To investigate commuting patterns, we will do two things:
+
 6.3.1  Look at the most popular times of day for cycling at each location. In other words, what hour(s) of the day do people cycle the most?
+
 6.3.2 Once we understand this, we will identify locations where cycling traffic is highest during commuting hours.
+
 1 Filter the cycling data to the most recent year for each location—This will give us an up to-date view on cycling patterns.
 2 Calculate the percentage of bike traffic that occurred in each hour of the day—Using a percentage means comparable results regardless of the popularity of the location.
 3 Visualize the distribution of these percentage values by hour—Using our “start at the end” approach, we imagine the final visualization. In this case, it will be a series of box plots, each representing an hour of the day and individual points representing the percentage of bike traffic in that hour of the day for a location.
