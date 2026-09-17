@@ -56,19 +56,20 @@ The detailed data dictionary is included in the project files.
 It describes the variables available in the cycling traffic dataset and provides information about the meaning and structure of each column.
 
 ---
-# main variable :
+
+# Main Variables
 
 | Count_point_id | A unique reference for the road link that links the AADFs to the road network |
-| Direction_of_travel | Direction of travel | 
+|---|---|
+| Direction_of_travel | Direction of travel |
 | Year | Counts are shown for each year from 2000 onwards |
 | Count_date | The date when the actual count took place |
-| Hour | The time when the counts in question took place, where 7 represents between 7 a.m. and 8 a.m., and 17 represents  between 5 p.m. and 6 p.m. |
+| Hour | The time when the counts in question took place, where 7 represents between 7 a.m. and 8 a.m., and 17 represents between 5 p.m. and 6 p.m. |
 | Region_id | Website region identifier |
 | Region_name | The name of the region that the count point (CP) sits within |
 | Region_ons_code | The Office for National Statistics code identifier for the region |
 | Pedal_cycles | Counts for pedal cycles |
 | All_motor_vehicles | Counts for all motor vehicles |
-
 
 ---
 
@@ -86,12 +87,10 @@ The project uses the following Python libraries:
 # 🔎 Project Workflow
 
 - Investigating time series data for completeness (are time series measured at different locations, or do all locations have the same amount of data?)
-- Establishing the granularity of the time series (is it hourly, daily, or weekly?
-Are there, in fact, multiple time series in the data, at different locations?)
+- Establishing the granularity of the time series (is it hourly, daily, or weekly? Are there, in fact, multiple time series in the data, at different locations?)
 - Understanding the coverage of the data (what period does the data cover?)
 - Investigating whether the time series has gaps
-- Reshaping time series data to be at a different level of granularity (summa
-rizing hourly data at a daily level)
+- Reshaping time series data to be at a different level of granularity (summarizing hourly data at a daily level)
 - Visualizing time series with appropriate charts (most often, line charts)
 - Calculating the distribution of the repeated measurement (for “Number of bikes seen in an hour,” what are the typical hourly counts?)
 - Diving down to the individual data point level to investigate anomalies
@@ -100,12 +99,11 @@ rizing hourly data at a daily level)
 - Finding time series of interest based on multiple criteria
 - Forecasting a time series into the future to predict future trends
 
-
 ---
-# 📋 project progress
 
-```text 
+# 📋 Project Progress
 
+```text
 Raw Cycling Traffic Data
         ↓
 Data Quality Investigation
@@ -126,9 +124,9 @@ Filter Suitable Locations
         ↓
 Investigate Cycling Traffic Distribution
         ↓
-Identify Trends 
+Identify Trends
         ↓
-Investigate certain characteristics 
+Investigate certain characteristics
         ↓
 Analyze Temporal Patterns
         ↓
@@ -137,7 +135,6 @@ Select Locations of Interest
 Time-Series Forecasting
         ↓
 Visualizations & Insights
-
 ```
 ---
 # analyse steps
@@ -151,7 +148,9 @@ It is important to establish what one row of our data represents and which combi
 
 We identified the following composite key:
 
-`\\\["Count\\\_point\\\_id", "Year", "Count\\\_date", "hour", "Direction\\\_of\\\_travel"]`
+```bash
+["Count_point_id", "Year", "Count_date", "hour", "Direction_of_travel"]
+```
 
 However, the dataset contains duplicate rows with the same key. We handle these by grouping duplicate records and averaging their measurement values.
 
